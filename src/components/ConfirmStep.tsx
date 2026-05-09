@@ -6,8 +6,10 @@ interface ConfirmStepProps {
   state: SelectionState;
   onEdit: () => void;
   onConfirm: () => void;
+  sending?: boolean;
+  error?: string | null;
 }
-export function ConfirmStep({ state, onEdit, onConfirm }: ConfirmStepProps) {
+export function ConfirmStep({ state, onEdit, onConfirm, sending = false, error = null }: ConfirmStepProps) {
   return (
     <motion.div
       initial={{
@@ -94,17 +96,27 @@ export function ConfirmStep({ state, onEdit, onConfirm }: ConfirmStepProps) {
           delay: 0.4
         }}
         className="space-y-4">
-        
+
+        {error &&
+        <p
+          role="alert"
+          className="text-center text-rose font-medium bg-rose/10 border border-rose/20 rounded-2xl px-4 py-3">
+          {error}
+        </p>
+        }
+
         <button
           onClick={onConfirm}
-          className="w-full py-4 rounded-full bg-rose text-white font-serif text-xl font-bold shadow-soft hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2">
-          
-          Send it 💕
+          disabled={sending}
+          className={`w-full py-4 rounded-full font-serif text-xl font-bold shadow-soft transition-all duration-300 flex items-center justify-center gap-2 ${sending ? 'bg-rose/60 text-white cursor-wait' : 'bg-rose text-white hover:scale-[1.02] active:scale-[0.98]'}`}>
+
+          {sending ? 'Sending…' : 'Send it 💕'}
         </button>
         <button
           onClick={onEdit}
-          className="w-full py-4 rounded-full text-brown/60 font-serif text-xl hover:text-brown hover:bg-white/50 transition-all duration-300">
-          
+          disabled={sending}
+          className={`w-full py-4 rounded-full font-serif text-xl transition-all duration-300 ${sending ? 'text-brown/30 cursor-not-allowed' : 'text-brown/60 hover:text-brown hover:bg-white/50'}`}>
+
           Wait, let me change something
         </button>
       </motion.div>

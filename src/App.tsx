@@ -1,4 +1,4 @@
-import React, { useState, Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { FloatingHearts } from './components/FloatingHearts';
 import { CoverStep } from './components/CoverStep';
@@ -6,29 +6,72 @@ import { SubChoiceStep } from './components/SubChoiceStep';
 import { ConfirmStep } from './components/ConfirmStep';
 import { SentStep } from './components/SentStep';
 import { Step, SelectionState } from './types';
-// ==========================================
-// CONFIGURATION - REPLACE THESE VALUES
-// ==========================================
-const TO_EMAIL = 'your-email@example.com'; // Replace with your email address
-const SENDER_NAME = 'Babe'; // Replace with her name or a pet name
-// ==========================================
+
+const TO_EMAIL = 'huynhminhnhut@gmail.com';
+const SENDER_NAME = 'Bé Yến';
+const STORAGE_KEY = 'anniversary-invitation:selection';
+
+const EMPTY_SELECTION: SelectionState = {
+  dinnerChoice: '',
+  activityChoice: ''
+};
+
+function loadSelection(): SelectionState {
+  if (typeof window === 'undefined') return EMPTY_SELECTION;
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return EMPTY_SELECTION;
+    const parsed = JSON.parse(raw) as Partial<SelectionState>;
+    return {
+      dinnerChoice: typeof parsed.dinnerChoice === 'string' ? parsed.dinnerChoice : '',
+      activityChoice: typeof parsed.activityChoice === 'string' ? parsed.activityChoice : ''
+    };
+  } catch {
+    return EMPTY_SELECTION;
+  }
+}
+
 export function App() {
   const [step, setStep] = useState<Step>('cover');
-  const [selection, setSelection] = useState<SelectionState>({
-    dinnerChoice: '',
-    activityChoice: ''
-  });
-  const handleSend = () => {
-    const subject = encodeURIComponent(`Our 3-Month Anniversary Date! 💖`);
-    const body = encodeURIComponent(
-      `Hey!\n\nHere's what I picked for our date:\n\n` +
-      `🍽️  Dinner: ${selection.dinnerChoice}\n` +
-      `✨  Then: ${selection.activityChoice}\n\n` +
-      `Can't wait! 💕`
-    );
-    window.location.href = `mailto:${TO_EMAIL}?subject=${subject}&body=${body}`;
-    setStep('sent');
+  const [selection, setSelection] = useState<SelectionState>(loadSelection);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(selection));
+    } catch {
+      // localStorage unavailable (private mode, quota, etc.) — fail silently
+    }
+  }, [selection]);
+
+  const handleSend = async () => {
+    if (sending) return;
+    setSending(true);
+    setSendError(null);
+    try {
+      const res = await fetch('/api/send-invitation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: TO_EMAIL,
+          senderName: SENDER_NAME,
+          dinnerChoice: selection.dinnerChoice,
+          activityChoice: selection.activityChoice
+        })
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({} as { error?: string }));
+        throw new Error(data.error || `Failed to send (${res.status})`);
+      }
+      setStep('sent');
+    } catch (err) {
+      setSendError(err instanceof Error ? err.message : 'Something went wrong');
+    } finally {
+      setSending(false);
+    }
   };
+
   return (
     <div className="relative w-full min-h-screen overflow-hidden bg-cream flex flex-col">
       <FloatingHearts />
@@ -80,6 +123,8 @@ export function App() {
           <ConfirmStep
             key="confirm"
             state={selection}
+            sending={sending}
+            error={sendError}
             onEdit={() => setStep('dinner')}
             onConfirm={handleSend} />
 
