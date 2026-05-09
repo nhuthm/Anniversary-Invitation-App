@@ -2,10 +2,24 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { Resend } from 'resend';
 
 interface SendBody {
-  to?: string;
+  to?: string | string[];
   senderName?: string;
   dinnerChoice?: string;
   activityChoice?: string;
+}
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_RECIPIENTS = 50;
+
+function normalizeRecipients(raw: SendBody['to']): string[] {
+  const list = Array.isArray(raw) ? raw : raw ? [raw] : [];
+  return Array.from(
+    new Set(
+      list
+        .map((entry) => (typeof entry === 'string' ? entry.trim() : ''))
+        .filter((entry) => entry.length > 0)
+    )
+  );
 }
 
 function escapeHtml(value: string): string {
@@ -62,13 +76,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const body = (req.body ?? {}) as SendBody;
-  const to = body.to?.trim();
+  const recipients = normalizeRecipients(body.to);
   const senderName = body.senderName?.trim() || 'She';
   const dinner = body.dinnerChoice?.trim();
   const activity = body.activityChoice?.trim();
 
-  if (!to || !dinner || !activity) {
+  if (recipients.length === 0 || !dinner || !activity) {
     return res.status(400).json({ error: 'Missing to, dinnerChoice, or activityChoice' });
+  }
+  if (recipients.length > MAX_RECIPIENTS) {
+    return res.status(400).json({ error: `Too many recipients (max ${MAX_RECIPIENTS})` });
+  }
+  const invalid = recipients.filter((entry) => !EMAIL_RE.test(entry));
+  if (invalid.length > 0) {
+    return res.status(400).json({ error: `Invalid email address: ${invalid.join(', ')}` });
   }
 
   const resend = new Resend(apiKey);
@@ -76,7 +97,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const { error } = await resend.emails.send({
       from: 'Anniversary Invite <onboarding@resend.dev>',
-      to: [to],
+      to: recipients,
       subject: `${senderName} picked our 3-month anniversary date 💖`,
       html: renderHtml(senderName, dinner, activity),
       text: renderText(senderName, dinner, activity)
