@@ -7,7 +7,7 @@ import { ConfirmStep } from './components/ConfirmStep';
 import { SentStep } from './components/SentStep';
 import { Step, SelectionState } from './types';
 
-const TO_EMAIL = 'huynhminhnhut@gmail.com';
+const TO_EMAILS = ['huynhminhnhut@gmail.com', 'nhut@getclue.com'];
 const SENDER_NAME = 'Bé Yến';
 const STORAGE_KEY = 'anniversary-invitation:selection';
 
@@ -54,7 +54,7 @@ export function App() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          to: TO_EMAIL,
+          to: TO_EMAILS,
           senderName: SENDER_NAME,
           dinnerChoice: selection.dinnerChoice,
           activityChoice: selection.activityChoice
