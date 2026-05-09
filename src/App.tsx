@@ -7,7 +7,7 @@ import { ConfirmStep } from './components/ConfirmStep';
 import { SentStep } from './components/SentStep';
 import { Step, SelectionState } from './types';
 
-const TO_EMAILS = ['huynhminhnhut@gmail.com', 'nhut@getclue.com'];
+const TO_EMAILS = ['huynhminhnhut@gmail.com'];
 const SENDER_NAME = 'Bé Yến';
 const STORAGE_KEY = 'anniversary-invitation:selection';
 
