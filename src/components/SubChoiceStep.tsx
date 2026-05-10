@@ -7,7 +7,8 @@ import {
   XIcon,
   MapPinIcon,
   CheckIcon,
-  ChevronRightIcon } from
+  ChevronRightIcon,
+  ExternalLinkIcon } from
 'lucide-react';
 import { Category } from '../types';
 interface SubChoiceStepProps {
@@ -21,11 +22,15 @@ interface SubChoiceStepProps {
 interface OptionLocation {
   name: string;
   area: string;
+  url?: string;
 }
 interface OptionDef {
   label: string;
   emoji: string;
   locations: OptionLocation[];
+  customInput?: boolean;
+  suggestions?: string[];
+  inputPlaceholder?: string;
 }
 const DINNER_OPTIONS: OptionDef[] = [
 {
@@ -33,42 +38,30 @@ const DINNER_OPTIONS: OptionDef[] = [
   emoji: '🍝',
   locations: [
   {
-    name: 'Pizza 4Ps',
-    area: 'District 1'
+    name: 'Arata Pasta',
+    area: 'Phu Nhuan District',
+    url: 'https://share.google/EUic1ZSzTWPkT75pl'
   },
   {
     name: 'Cocotte',
-    area: 'Thao Dien'
-  },
-  {
-    name: 'La Hostaria',
-    area: 'District 1'
-  },
-  {
-    name: 'Pendolasco',
-    area: 'Thao Dien'
+    area: 'District 3',
+    url: 'https://share.google/i2pMOozdLz5kwStd0'
   }]
 
 },
 {
-  label: 'Sushi',
+  label: 'Japanese',
   emoji: '🍣',
   locations: [
   {
-    name: 'Sushi Hokkaido Sachi',
-    area: 'District 1'
+    name: 'Yen Sushi',
+    area: 'Tan Binh District',
+    url: 'https://share.google/kYx1ID1s49SBJBEjD'
   },
   {
-    name: 'Kazu Sushi',
-    area: 'District 1'
-  },
-  {
-    name: 'Sushi Tei',
-    area: 'District 7'
-  },
-  {
-    name: 'Hashida',
-    area: 'Thao Dien'
+    name: 'Robata An',
+    area: 'District 1',
+    url: 'https://share.google/GgYxd3S42AVp5i4lc'
   }]
 
 },
@@ -77,161 +70,64 @@ const DINNER_OPTIONS: OptionDef[] = [
   emoji: '🥩',
   locations: [
   {
-    name: 'El Gaucho',
-    area: 'District 1'
+    name: 'ELSOL meat&whine',
+    area: 'District 1',
+    url: 'https://share.google/Ysk0HpQcsftroV6qL'
   },
   {
-    name: 'Au Lac do Brazil',
-    area: 'District 3'
-  },
-  {
-    name: 'The Steakhouse',
-    area: 'District 1'
-  }]
-
-},
-{
-  label: 'Cozy bistro',
-  emoji: '🥖',
-  locations: [
-  {
-    name: 'Quince Saigon',
-    area: 'District 1'
-  },
-  {
-    name: 'Anan Saigon',
-    area: 'District 1'
-  },
-  {
-    name: 'Stoker',
-    area: 'District 1'
-  }]
-
-},
-{
-  label: 'Brunch',
-  emoji: '🥞',
-  locations: [
-  {
-    name: 'Le Corto',
-    area: 'District 1'
-  },
-  {
-    name: 'Snap Café',
-    area: 'Thao Dien'
-  },
-  {
-    name: 'The Workshop',
-    area: 'District 1'
-  }]
-
-},
-{
-  label: 'Surprise me',
-  emoji: '✨',
-  locations: [
-  {
-    name: 'Let me pick a place',
-    area: 'It’s a secret 💕'
+    name: 'Steak Love',
+    area: 'District 1',
+    url: 'https://share.google/9j1ytNTKQljd4rXfq'
   }]
 
 }];
 
 const ACTIVITY_OPTIONS: OptionDef[] = [
 {
-  label: 'Mini golf',
-  emoji: '⛳',
+  label: 'Watch movie',
+  emoji: '🎬',
   locations: [
   {
-    name: 'Putt Putt Saigon',
-    area: 'District 1'
+    name: 'Doraemon',
+    area: ''
   },
   {
-    name: 'Vincom Mini Golf',
-    area: 'District 1'
+    name: 'The Devil Wears Prada 2',
+    area: ''
   }]
 
 },
 {
-  label: 'Museum',
-  emoji: '🏛️',
+  label: 'Drink',
+  emoji: '🍹',
   locations: [
   {
-    name: 'Fine Arts Museum',
-    area: 'District 1'
+    name: 'Pure (hidden bar)',
+    area: 'District 1',
+    url: 'https://share.google/lmhWpv8oTbUekKHuz'
   },
   {
-    name: 'War Remnants Museum',
-    area: 'District 3'
-  },
-  {
-    name: 'Áo Dài Museum',
-    area: 'District 9'
+    name: 'Looking in TikTok hehe 😊',
+    area: ''
   }]
 
 },
 {
-  label: 'Bowling',
-  emoji: '🎳',
-  locations: [
-  {
-    name: 'Saigon Superbowl',
-    area: 'Tan Binh'
-  },
-  {
-    name: 'Diamond Bowling',
-    area: 'District 1'
-  }]
-
-},
-{
-  label: 'Hiking',
-  emoji: '🥾',
-  locations: [
-  {
-    name: 'Núi Dinh',
-    area: 'Vung Tau'
-  },
-  {
-    name: 'Bửu Long',
-    area: 'Bien Hoa'
-  }]
-
-},
-{
-  label: 'Arcade',
-  emoji: '🕹️',
-  locations: [
-  {
-    name: 'Tini World',
-    area: 'District 1'
-  },
-  {
-    name: 'Funtasy',
-    area: 'District 7'
-  },
-  {
-    name: 'Timezone',
-    area: 'District 1'
-  }]
-
-},
-{
-  label: 'Live music',
-  emoji: '🎶',
-  locations: [
-  {
-    name: 'Acoustic Bar',
-    area: 'District 3'
-  },
-  {
-    name: 'Yoko Café',
-    area: 'District 3'
-  },
-  {
-    name: 'Soul Live Project',
-    area: 'District 1'
-  }]
+  label: 'Hang Out?',
+  emoji: '💭',
+  locations: [],
+  customInput: true,
+  inputPlaceholder: 'Type something fun…',
+  suggestions: [
+  'Take photos somewhere cute',
+  'Walk around District 1',
+  'Coffee & people-watch',
+  'Bubble tea wander',
+  'Late-night ride',
+  'Try a new dessert place',
+  'Visit a bookstore',
+  'Rooftop & stars',
+  'Karaoke']
 
 }];
 
@@ -402,8 +298,9 @@ export function SubChoiceStep({
 
                 <span className="flex items-center gap-1 text-xs text-brown/50">
                     <span className="truncate">
-                      {opt.locations.length} place
-                      {opt.locations.length === 1 ? '' : 's'}
+                      {opt.customInput ?
+                    'Type your idea' :
+                    `${opt.locations.length} place${opt.locations.length === 1 ? '' : 's'}`}
                     </span>
                     <ChevronRightIcon size={12} />
                   </span>
@@ -506,7 +403,9 @@ export function SubChoiceStep({
                     </span>
                   </div>
                   <h3 className="font-script text-4xl text-rose leading-tight">
-                    Pick a place
+                    {activeOption.customInput ?
+                  'What sounds fun?' :
+                  'Pick a place'}
                   </h3>
                 </div>
                 <button
@@ -519,13 +418,24 @@ export function SubChoiceStep({
               </div>
 
               <div className="flex-1 overflow-y-auto px-6 pt-4 pb-6">
-                <div className="flex flex-col gap-3">
-                  {activeOption.locations.map((loc, i) => {
+                {activeOption.customInput ?
+              <CustomInputSheetBody
+                option={activeOption}
+                initialValue={
+                selectedLabel === activeOption.label ? selectedPlace : ''
+                }
+                onSubmit={(v) => handlePickPlace(activeOption.label, v)} /> :
+
+
+              <div className="flex flex-col gap-3">
+                    {activeOption.locations.map((loc, i) => {
                   const isSelected =
                   selectedLabel === activeOption.label &&
                   selectedPlace === loc.name;
+                  const handleSelect = () =>
+                  handlePickPlace(activeOption.label, loc.name);
                   return (
-                    <motion.button
+                    <motion.div
                       key={loc.name}
                       initial={{
                         opacity: 0,
@@ -538,40 +448,129 @@ export function SubChoiceStep({
                       transition={{
                         delay: i * 0.04
                       }}
-                      onClick={() =>
-                      handlePickPlace(activeOption.label, loc.name)
-                      }
-                      className={`text-left p-4 rounded-2xl border-2 transition-all flex items-center justify-between gap-3 ${isSelected ? 'border-rose bg-rose/10' : 'border-transparent glass-card hover:border-rose/30'}`}>
+                      role="button"
+                      tabIndex={0}
+                      onClick={handleSelect}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          handleSelect();
+                        }
+                      }}
+                      className={`cursor-pointer text-left p-4 rounded-2xl border-2 transition-all flex items-center justify-between gap-3 outline-none focus-visible:border-rose ${isSelected ? 'border-rose bg-rose/10' : 'border-transparent glass-card hover:border-rose/30'}`}>
                       
-                        <div className="flex items-start gap-3 min-w-0">
-                          <div className="p-2 rounded-full bg-rose/10 text-rose flex-shrink-0">
-                            <MapPinIcon size={16} />
-                          </div>
-                          <div className="min-w-0">
-                            <p
+                          <div className="flex items-start gap-3 min-w-0">
+                            <div className="p-2 rounded-full bg-rose/10 text-rose flex-shrink-0">
+                              <MapPinIcon size={16} />
+                            </div>
+                            <div className="min-w-0">
+                              <p
                             className={`font-serif text-lg leading-tight truncate ${isSelected ? 'text-rose font-bold' : 'text-brown'}`}>
                             
-                              {loc.name}
-                            </p>
-                            <p className="text-sm text-brown/60 truncate">
-                              {loc.area}
-                            </p>
+                                {loc.name}
+                              </p>
+                              {loc.url ?
+                          <a
+                            href={loc.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-sm text-rose hover:underline inline-flex items-center gap-1 truncate">
+                            
+                                  <span className="truncate">{loc.area}</span>
+                                  <ExternalLinkIcon
+                              size={12}
+                              className="flex-shrink-0" />
+                            
+                                </a> :
+
+                          <p className="text-sm text-brown/60 truncate">
+                                  {loc.area}
+                                </p>
+                          }
+                            </div>
                           </div>
-                        </div>
-                        {isSelected &&
+                          {isSelected &&
                       <span className="w-6 h-6 rounded-full bg-rose text-white flex items-center justify-center flex-shrink-0">
-                            <CheckIcon size={14} />
-                          </span>
+                              <CheckIcon size={14} />
+                            </span>
                       }
-                      </motion.button>);
+                        </motion.div>);
 
                 })}
-                </div>
+                  </div>
+              }
               </div>
             </motion.div>
           </>
         }
       </AnimatePresence>
     </motion.div>);
+
+}
+interface CustomInputSheetBodyProps {
+  option: OptionDef;
+  initialValue: string;
+  onSubmit: (value: string) => void;
+}
+function CustomInputSheetBody({
+  option,
+  initialValue,
+  onSubmit
+}: CustomInputSheetBodyProps) {
+  const [value, setValue] = useState(initialValue);
+  const trimmed = value.trim();
+  const canSubmit = trimmed.length > 0;
+  return (
+    <div className="flex flex-col gap-5">
+      <div>
+        <label className="block text-xs font-bold text-rose/70 uppercase tracking-widest mb-2">
+          Your idea
+        </label>
+        <textarea
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey && canSubmit) {
+              e.preventDefault();
+              onSubmit(trimmed);
+            }
+          }}
+          placeholder={option.inputPlaceholder ?? 'Type something…'}
+          rows={3}
+          className="w-full p-4 rounded-2xl border-2 border-rose/20 bg-white/70 font-serif text-lg text-brown placeholder:text-brown/40 focus:border-rose focus:outline-none transition-colors resize-none"
+          autoFocus />
+        
+      </div>
+
+      {option.suggestions && option.suggestions.length > 0 &&
+      <div>
+          <p className="text-xs font-bold text-rose/70 uppercase tracking-widest mb-2">
+            Need a nudge?
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {option.suggestions.map((s) =>
+          <button
+            key={s}
+            type="button"
+            onClick={() => setValue(s)}
+            className="px-3 py-2 rounded-full text-sm font-medium border-2 border-rose/20 bg-white/60 text-brown hover:border-rose hover:text-rose transition-colors">
+            
+                {s}
+              </button>
+          )}
+          </div>
+        </div>
+      }
+
+      <button
+        type="button"
+        onClick={() => canSubmit && onSubmit(trimmed)}
+        disabled={!canSubmit}
+        className={`mt-2 w-full py-4 rounded-full font-serif text-xl font-medium transition-all duration-300 ${canSubmit ? 'bg-rose text-white shadow-soft hover:scale-[1.02] active:scale-[0.98]' : 'bg-brown/10 text-brown/40 cursor-not-allowed'}`}>
+        
+        Save this idea 💕
+      </button>
+    </div>);
 
 }
