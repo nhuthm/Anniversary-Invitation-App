@@ -8,11 +8,38 @@
 
 /* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
 
+:root {
+  --color-cream: #faf3e7;
+  --color-brown: #5a3a2a;
+  --color-rose: #d98a8a;
+}
 @layer base {
   body {
-    @apply bg-cream text-brown font-serif antialiased selection:bg-rose/20;
+    background-color: var(--color-cream);
+    color: var(--color-brown);
+    font-family: 'Cormorant Garamond', ui-serif, Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  body ::selection {
+    background-color: rgb(217 138 138 / 0.2);
   }
 }
+@layer utilities {
+  .bg-cream { background-color: var(--color-cream); }
+  .text-cream { color: var(--color-cream); }
+  .bg-brown { background-color: var(--color-brown); }
+  .text-brown { color: var(--color-brown); }
+  .border-brown { border-color: var(--color-brown); }
+  .bg-rose { background-color: var(--color-rose); }
+  .text-rose { color: var(--color-rose); }
+  .border-rose { border-color: var(--color-rose); }
+  .font-serif { font-family: 'Cormorant Garamond', ui-serif, Georgia, serif; }
+  .font-script { font-family: 'Caveat', cursive; }
+}
 .glass-card {
-  @apply bg-white/80 backdrop-blur-md border border-white/40 shadow-sm;
+  background-color: rgb(255 255 255 / 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgb(255 255 255 / 0.4);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }

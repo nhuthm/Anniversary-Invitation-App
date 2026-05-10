@@ -9,41 +9,38 @@ interface ConfirmStepProps {
   sending?: boolean;
   error?: string | null;
 }
-export function ConfirmStep({ state, onEdit, onConfirm, sending = false, error = null }: ConfirmStepProps) {
-  return (
-    <motion.div
-      initial={{
-        opacity: 0,
-        scale: 0.95
-      }}
-      animate={{
-        opacity: 1,
-        scale: 1
-      }}
-      exit={{
-        opacity: 0,
-        y: -20
-      }}
-      className="w-full max-w-md mx-auto p-6 flex flex-col h-full justify-center">
+export function ConfirmStep({
+  state,
+  onEdit,
+  onConfirm,
+  sending = false,
+  error = null
+}: ConfirmStepProps) {
+  return <motion.div initial={{
+    opacity: 0,
+    scale: 0.95
+  }} animate={{
+    opacity: 1,
+    scale: 1
+  }} exit={{
+    opacity: 0,
+    y: -20
+  }} className="w-full max-w-md mx-auto p-6 flex flex-col h-full justify-center">
       
       <div className="text-center mb-8">
         <h2 className="font-script text-5xl text-rose mb-2">Perfect! 💖</h2>
         <p className="text-xl text-brown/70">Here's our plan</p>
       </div>
 
-      <motion.div
-        initial={{
-          y: 20,
-          opacity: 0
-        }}
-        animate={{
-          y: 0,
-          opacity: 1
-        }}
-        transition={{
-          delay: 0.2
-        }}
-        className="glass-card rounded-3xl p-8 relative overflow-hidden bg-white/90 shadow-soft mb-8">
+      <motion.div initial={{
+      y: 20,
+      opacity: 0
+    }} animate={{
+      y: 0,
+      opacity: 1
+    }} transition={{
+      delay: 0.2
+    }} className="glass-card rounded-3xl p-8 relative overflow-hidden bg-white/90 shadow-soft mb-8">
         
         {/* Decorative corner element */}
         <div className="absolute -top-4 -right-4 text-rose/10 rotate-12">
@@ -83,43 +80,28 @@ export function ConfirmStep({ state, onEdit, onConfirm, sending = false, error =
         </div>
       </motion.div>
 
-      <motion.div
-        initial={{
-          y: 20,
-          opacity: 0
-        }}
-        animate={{
-          y: 0,
-          opacity: 1
-        }}
-        transition={{
-          delay: 0.4
-        }}
-        className="space-y-4">
+      <motion.div initial={{
+      y: 20,
+      opacity: 0
+    }} animate={{
+      y: 0,
+      opacity: 1
+    }} transition={{
+      delay: 0.4
+    }} className="space-y-4">
 
-        {error &&
-        <p
-          role="alert"
-          className="text-center text-rose font-medium bg-rose/10 border border-rose/20 rounded-2xl px-4 py-3">
+        {error && <p role="alert" className="text-center text-rose font-medium bg-rose/10 border border-rose/20 rounded-2xl px-4 py-3">
           {error}
-        </p>
-        }
+        </p>}
 
-        <button
-          onClick={onConfirm}
-          disabled={sending}
-          className={`w-full py-4 rounded-full font-serif text-xl font-bold shadow-soft transition-all duration-300 flex items-center justify-center gap-2 ${sending ? 'bg-rose/60 text-white cursor-wait' : 'bg-rose text-white hover:scale-[1.02] active:scale-[0.98]'}`}>
+        <button onClick={onConfirm} disabled={sending} className={`w-full py-4 rounded-full font-serif text-xl font-bold shadow-soft transition-all duration-300 flex items-center justify-center gap-2 ${sending ? 'bg-rose/60 text-white cursor-wait' : 'bg-rose text-white hover:scale-[1.02] active:scale-[0.98]'}`}>
 
           {sending ? 'Sending…' : 'Send it 💕'}
         </button>
-        <button
-          onClick={onEdit}
-          disabled={sending}
-          className={`w-full py-4 rounded-full font-serif text-xl transition-all duration-300 ${sending ? 'text-brown/30 cursor-not-allowed' : 'text-brown/60 hover:text-brown hover:bg-white/50'}`}>
+        <button onClick={onEdit} disabled={sending} className={`w-full py-4 rounded-full font-serif text-xl transition-all duration-300 ${sending ? 'text-brown/30 cursor-not-allowed' : 'text-brown/60 hover:text-brown hover:bg-white/50'}`}>
 
           Wait, let me change something
         </button>
       </motion.div>
-    </motion.div>);
-
+    </motion.div>;
 }

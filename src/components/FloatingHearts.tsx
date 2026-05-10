@@ -13,40 +13,24 @@ export function FloatingHearts() {
     delay: Math.random() * -30,
     opacity: Math.random() * 0.15 + 0.05 // 0.05 to 0.2
   }));
-  return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      {hearts.map((heart) =>
-      <motion.div
-        key={heart.id}
-        className="absolute bottom-[-50px] text-rose"
-        style={{
-          left: heart.left
-        }}
-        animate={{
-          y: ['0vh', '-120vh'],
-          x: [
-          '0px',
-          `${Math.random() * 100 - 50}px`,
-          `${Math.random() * 100 - 50}px`],
-
-          rotate: [0, Math.random() * 360]
-        }}
-        transition={{
-          duration: heart.duration,
-          repeat: Infinity,
-          ease: 'linear',
-          delay: heart.delay
-        }}>
+  return <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+      {hearts.map((heart) => <motion.div key={heart.id} className="absolute bottom-[-50px] text-rose" style={{
+      left: heart.left
+    }} animate={{
+      y: ['0vh', '-120vh'],
+      x: ['0px', `${Math.random() * 100 - 50}px`, `${Math.random() * 100 - 50}px`],
+      rotate: [0, Math.random() * 360]
+    }} transition={{
+      duration: heart.duration,
+      repeat: Infinity,
+      ease: 'linear',
+      delay: heart.delay
+    }}>
         
-          <HeartIcon
-          size={heart.size}
-          fill="currentColor"
-          style={{
-            opacity: heart.opacity
-          }} />
+          <HeartIcon size={heart.size} fill="currentColor" style={{
+        opacity: heart.opacity
+      }} />
         
-        </motion.div>
-      )}
-    </div>);
-
+        </motion.div>)}
+    </div>;
 }
