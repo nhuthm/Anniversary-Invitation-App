@@ -8,11 +8,63 @@
 
 /* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
 
+:root {
+  --color-cream: 250 243 231;   /* #faf3e7 */
+  --color-brown: 90 58 42;      /* #5a3a2a */
+  --color-rose:  217 138 138;   /* #d98a8a */
+}
 @layer base {
   body {
-    @apply bg-cream text-brown font-serif antialiased selection:bg-rose/20;
+    background-color: rgb(var(--color-cream));
+    color: rgb(var(--color-brown));
+    font-family: 'Cormorant Garamond', ui-serif, Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  body ::selection {
+    background-color: rgb(var(--color-rose) / 0.2);
+  }
+}
+@layer utilities {
+  /* Base color utilities */
+  .bg-cream { background-color: rgb(var(--color-cream)); }
+  .text-cream { color: rgb(var(--color-cream)); }
+  .bg-brown { background-color: rgb(var(--color-brown)); }
+  .text-brown { color: rgb(var(--color-brown)); }
+  .border-brown { border-color: rgb(var(--color-brown)); }
+  .bg-rose { background-color: rgb(var(--color-rose)); }
+  .text-rose { color: rgb(var(--color-rose)); }
+  .border-rose { border-color: rgb(var(--color-rose)); }
+  /* Brown opacity variants */
+  .text-brown\/30 { color: rgb(var(--color-brown) / 0.3); }
+  .text-brown\/40 { color: rgb(var(--color-brown) / 0.4); }
+  .text-brown\/60 { color: rgb(var(--color-brown) / 0.6); }
+  .text-brown\/70 { color: rgb(var(--color-brown) / 0.7); }
+  .text-brown\/80 { color: rgb(var(--color-brown) / 0.8); }
+  .bg-brown\/10  { background-color: rgb(var(--color-brown) / 0.1); }
+  /* Rose opacity variants */
+  .text-rose\/10 { color: rgb(var(--color-rose) / 0.1); }
+  .text-rose\/40 { color: rgb(var(--color-rose) / 0.4); }
+  .text-rose\/70 { color: rgb(var(--color-rose) / 0.7); }
+  .bg-rose\/5    { background-color: rgb(var(--color-rose) / 0.05); }
+  .bg-rose\/10   { background-color: rgb(var(--color-rose) / 0.1); }
+  .bg-rose\/20   { background-color: rgb(var(--color-rose) / 0.2); }
+  .bg-rose\/60   { background-color: rgb(var(--color-rose) / 0.6); }
+  .border-rose\/10 { border-color: rgb(var(--color-rose) / 0.1); }
+  .border-rose\/20 { border-color: rgb(var(--color-rose) / 0.2); }
+  .border-rose\/30 { border-color: rgb(var(--color-rose) / 0.3); }
+  /* Fonts */
+  .font-serif { font-family: 'Cormorant Garamond', ui-serif, Georgia, serif; }
+  .font-script { font-family: 'Caveat', cursive; }
+  /* Custom shadow */
+  .shadow-soft {
+    box-shadow: 0 10px 30px -12px rgb(var(--color-rose) / 0.35),
+                0 4px 12px -6px rgb(var(--color-brown) / 0.15);
   }
 }
 .glass-card {
-  @apply bg-white/80 backdrop-blur-md border border-white/40 shadow-sm;
+  background-color: rgb(255 255 255 / 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgb(255 255 255 / 0.4);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }
