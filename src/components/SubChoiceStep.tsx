@@ -84,16 +84,16 @@ const DINNER_OPTIONS: OptionDef[] = [
 
 const ACTIVITY_OPTIONS: OptionDef[] = [
 {
-  label: 'Watch movie',
-  emoji: '🎬',
+  label: 'Shopping',
+  emoji: '🛍️',
   locations: [
   {
-    name: 'Doraemon',
-    area: ''
+    name: 'Saigon Centre / Takashimaya',
+    area: 'District 1'
   },
   {
-    name: 'The Devil Wears Prada 2',
-    area: ''
+    name: 'Vincom',
+    area: 'District 2'
   }]
 
 },
